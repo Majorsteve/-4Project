@@ -1,26 +1,96 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { Route, } from 'react-router-dom';
+import { withRouter } from 'react-router';
+import decode from 'jwt-decode';
+import LoginForm from './components/LoginForm';
+import RegisterForm from './components/RegisterForm';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import {
+  loginUser,
+  registerUser
+} from './services/api-helper'
+
+
+
+class App extends React.Component {
+  constructor(props) {
+    super(props)
+  
+    this.state = {
+      users: [],
+      currentUser: null,
+      authFormData: {
+        username: "",
+        email: "",
+        password: ""
+      }
+    }
+  }
+
+  componentDidMount() {
+    // this.getTeachers();
+    const checkUser = localStorage.getItem("jwt");
+    if (checkUser) {
+      const user = decode(checkUser);
+      this.setState({
+        currentUser: user
+      })
+    }
+  }
+
+  handleLoginButton = (ev) => {
+    ev.preventDefault();
+}
+  
+  handleLogin = async () => {
+    const userData = await loginUser(this.state.authFormData);
+    this.setState({
+      currentUser: userData
+    })
+    this.props.history.push("/login")
+  }
+
+  handleRegister = async (e) => {
+    e.preventDefault();
+    await registerUser(this.state.authFormData);
+    this.handleLogin();
+  }
+
+  handleLogout = () => {
+    localStorage.removeItem("jwt");
+    this.setState({
+      currentUser: null
+    })
+  }
+
+  authHandleChange = (e) => {
+    const { name, value } = e.target;
+    this.setState(prevState => ({
+      authFormData: {
+        ...prevState.authFormData,
+        [name]: value
+      }
+    }));
+  }
+  
+  render() {
+    return (
+      <div className="App">
+      <Route exact path="/login" render={() => (
+          <LoginForm
+            handleLogin={this.handleLogin}
+            handleChange={this.authHandleChange}
+            formData={this.state.authFormData} />)} />
+        <Route exact path="/register" render={() => (
+          <RegisterForm
+            handleRegister={this.handleRegister}
+            handleChange={this.authHandleChange}
+            formData={this.state.authFormData} />)} />
+          
+      </div>
+    );
+  }
 }
 
-export default App;
+export default withRouter(App);
