@@ -49,3 +49,14 @@ export const destroyTopic = async (id) => {
   const resp = await api.delete(`/topics/${id}`)
   return resp.data
 }
+
+export const fetchComments = async () => {
+  const resp = await api.get('topic_id/comments')
+  return resp.data
+}
+
+export const createComment = async (data) => {
+  const resp = await api.get('topic_id/comments', {comment: data})
+  return resp.data
+}
+
