@@ -2,6 +2,28 @@
   text-align: center;
 }
 
+header {
+  font-family: 'Permanent Marker', cursive;
+  text-align: left;
+  padding: 2rem;
+  background: linear-gradient(to right, #d6d6d6, #b1b1b1, #d6d6d6);
+  position: static;
+  width: 100%;
+  top: 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+header>h1>a {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+header>div>button, p {
+  margin: 0 3rem;
+}
+
+
 .body{
   margin: 0;
   padding: 0;

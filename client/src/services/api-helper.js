@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { async } from 'q';
 
 const baseUrl = 'http://localhost:3000'
 
@@ -19,6 +18,16 @@ export const loginUser = async (loginData) => {
 export const registerUser = async (registerData) => {
   const resp = await api.post('/users/', { user: registerData })
   return resp.data
+}
+
+export const verifyUser = async () => {
+  const token = localStorage.getItem('authToken');
+  if (token) {
+    api.defaults.headers.common.authorization = `Bearer ${token}`;
+    const resp = await api.get('/users/verify');
+    return resp.data;
+  }
+  return false;
 }
 
 export const fetchTopics = async () => {

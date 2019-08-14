@@ -1,8 +1,8 @@
 import React from 'react';
 import './App.css';
-import { Route, } from 'react-router-dom';
+import { Route, Link } from 'react-router-dom';
 import { withRouter } from 'react-router';
-import decode from 'jwt-decode';
+// import decode from 'jwt-decode';
 import LoginForm from './components/LoginForm';
 import RegisterForm from './components/RegisterForm';
 import Home from './components/Home'
@@ -10,7 +10,8 @@ import TopicForm from './components/TopicForm'
 
 import {
   loginUser,
-  registerUser
+  registerUser,
+  verifyUser,
 } from './services/api-helper'
 
 class App extends React.Component {
@@ -30,12 +31,11 @@ class App extends React.Component {
   }
 
 
-//Authticate
-  componentDidMount() {
+  //Authticate
+  componentDidMount = async () => {
     // this.getTeachers();
-    const checkUser = localStorage.getItem("jwt");
-    if (checkUser) {
-      const user = decode(checkUser);
+    const user = await verifyUser();
+    if (user) {
       this.setState({
         currentUser: user
       })
@@ -80,6 +80,25 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
+        <header>
+          <h1><Link to='/' onClick={() => this.setState({
+            teacherForm: {
+              name: "",
+              photo: ""
+            }
+          })}>Home</Link></h1>
+          <div>
+            {this.state.currentUser
+              ?
+              <>
+                <p>{this.state.currentUser.username}</p>
+                <button onClick={this.handleLogout}>logout</button>
+              </>
+              :
+              <button onClick={this.handleLoginButton}>Login/register</button>
+            }
+          </div>
+        </header>
         <div className="Auth">
           <Route exact path="/login" render={() => (
             <LoginForm
@@ -95,13 +114,13 @@ class App extends React.Component {
         <Route exact path="/" render={() => (
           <Home />)} />
         <div>
-        <Route exact path="/TopicForm" render={() => (
+          <Route exact path="/TopicForm" render={() => (
             <TopicForm
-            currentUser = {this.state.currentUser}
+              currentUser={this.state.currentUser}
             />)} />
-        
-      </div>
-        
+
+        </div>
+
       </div>
     );
   }

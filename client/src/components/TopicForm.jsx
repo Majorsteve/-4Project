@@ -1,22 +1,16 @@
 import React from 'react'
 import { createTopic } from '../services/api-helper'
+import { withRouter } from 'react-router-dom'
 
-export default class TopicForm extends React.Component {
+class TopicForm extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
       title: '',
-      user_id: '',
     };
   }
 
-  componentDidMount = () => {
-    const userId = this.props.currentUser.id
-    console.log(userId);
-    this.setState({ user_id: userId})
-  }
-  
 
   handleChange = (ev) => {
     const { name, value } = ev.target;
@@ -54,3 +48,5 @@ export default class TopicForm extends React.Component {
     );
   }
 }
+
+export default withRouter(TopicForm)

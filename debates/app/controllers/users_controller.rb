@@ -1,6 +1,5 @@
 class UsersController < ApplicationController
   before_action :authorize_request, except: :create
-  before_action :authorize_request, only: [:verify]
   
   def index
     @users = User.all
@@ -31,8 +30,7 @@ class UsersController < ApplicationController
   end
   
   def destroy
-    @user = User.find(params[:id])
-    @user.destroy
+    @current_user.destroy
     head 204
   end
 

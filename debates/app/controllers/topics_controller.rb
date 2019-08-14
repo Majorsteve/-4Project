@@ -1,8 +1,9 @@
 class TopicsController < ApplicationController
+  before_action :authorize_request, only: [:create]
+
 
   def index
-    @user = User.find(params[:user_id])
-    @topics = Topic.where(user_id: @user.id)
+    @topics = Topic.all
     render json: @topics, include: :user, status: :ok
   end
   
@@ -14,6 +15,7 @@ class TopicsController < ApplicationController
   
   def create
     @topic = Topic.new(topic_params)
+    @topic.user = @current_user;
     if @topic.save
       render json: @topic, status: :created
     else

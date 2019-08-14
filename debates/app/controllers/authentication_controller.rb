@@ -1,4 +1,5 @@
 class AuthenticationController < ApplicationController
+  
 
 def login
   @user = User.find_by_username(params[:username])
