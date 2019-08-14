@@ -1,9 +1,11 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+
 
 const RegisterForm = (props) => {
 
   return (
-    <div className="auth-container">
+    <div className="auth-register">
       <h2>Register</h2>
       <hr />
       <form onSubmit={props.handleRegister} >
@@ -27,6 +29,7 @@ const RegisterForm = (props) => {
           onChange={props.handleChange} />
         <hr/>
         <button onClick={props.handleLoginButton}>Register</button>
+        <Link to="/login">login</Link>
       </form>
     </div>
   );

@@ -13,7 +13,7 @@ class TopicsController < ApplicationController
   end
   
   def create
-    @topic = Topic.new(topic_params) 
+    @topic = Topic.new(topic_params)
     if @topic.save
       render json: @topic, status: :created
     else
@@ -28,17 +28,17 @@ class TopicsController < ApplicationController
     else
       render json: { errors: @topic.errors }, status: :unprocessable_entity
     end
-  
-    def destroy
-      @topic = Topic.find(params[:id])
-      @topic.destroy
-      head 204
-    end
-  
-    private
-  
-    def topic_params
-      params.require(:topic).premit(:title)
-    end
   end
-  end 
+  
+  def destroy
+    @topic = Topic.find(params[:id])
+    @topic.destroy
+    head 204
+  end
+  
+  private
+
+  def topic_params
+    params.require(:topic).permit(:title, :user_id)
+  end
+end

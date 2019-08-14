@@ -4,10 +4,10 @@ import { Link } from 'react-router-dom';
 const LoginForm = (props) => {
 
   return (
-    <div className="auth-container">
+    <div className="auth-login">
       <h2>login</h2>
       <hr />
-      <form onSubmit={(e) => {
+      <form className="box" onSubmit={(e) => {
         e.preventDefault();
         props.handleLogin();}} >
         <p>Username:</p>

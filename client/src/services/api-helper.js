@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { async } from 'q';
 
 const baseUrl = 'http://localhost:3000'
 
@@ -17,5 +18,25 @@ export const loginUser = async (loginData) => {
 
 export const registerUser = async (registerData) => {
   const resp = await api.post('/users/', { user: registerData })
+  return resp.data
+}
+
+export const fetchTopics = async () => {
+  const resp = await api.get('/topics/')
+  return resp.data
+}
+
+export const showTopic = async (id) => {
+  const resp = await api.show(`/topics/${id}`);
+  return resp.data;
+}
+
+export const createTopic = async (data) => {
+  const resp = await api.post('/topics', { topic: data })
+  return resp.data
+}
+
+export const destroyTopic = async (id) => {
+  const resp = await api.delete(`/topics/${id}`)
   return resp.data
 }

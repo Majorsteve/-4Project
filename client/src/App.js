@@ -5,18 +5,18 @@ import { withRouter } from 'react-router';
 import decode from 'jwt-decode';
 import LoginForm from './components/LoginForm';
 import RegisterForm from './components/RegisterForm';
+import Home from './components/Home'
+import TopicForm from './components/TopicForm'
 
 import {
   loginUser,
   registerUser
 } from './services/api-helper'
 
-
-
 class App extends React.Component {
   constructor(props) {
     super(props)
-  
+
     this.state = {
       users: [],
       currentUser: null,
@@ -24,10 +24,13 @@ class App extends React.Component {
         username: "",
         email: "",
         password: ""
-      }
+      },
+      topics: []
     }
   }
 
+
+//Authticate
   componentDidMount() {
     // this.getTeachers();
     const checkUser = localStorage.getItem("jwt");
@@ -41,14 +44,14 @@ class App extends React.Component {
 
   handleLoginButton = (ev) => {
     ev.preventDefault();
-}
-  
+  }
+
   handleLogin = async () => {
     const userData = await loginUser(this.state.authFormData);
     this.setState({
       currentUser: userData
     })
-    this.props.history.push("/login")
+    this.props.history.push("/")
   }
 
   handleRegister = async (e) => {
@@ -73,21 +76,32 @@ class App extends React.Component {
       }
     }));
   }
-  
+
   render() {
     return (
       <div className="App">
-      <Route exact path="/login" render={() => (
-          <LoginForm
-            handleLogin={this.handleLogin}
-            handleChange={this.authHandleChange}
-            formData={this.state.authFormData} />)} />
-        <Route exact path="/register" render={() => (
-          <RegisterForm
-            handleRegister={this.handleRegister}
-            handleChange={this.authHandleChange}
-            formData={this.state.authFormData} />)} />
-          
+        <div className="Auth">
+          <Route exact path="/login" render={() => (
+            <LoginForm
+              handleLogin={this.handleLogin}
+              handleChange={this.authHandleChange}
+              formData={this.state.authFormData} />)} />
+          <Route exact path="/register" render={() => (
+            <RegisterForm
+              handleRegister={this.handleRegister}
+              handleChange={this.authHandleChange}
+              formData={this.state.authFormData} />)} />
+        </div>
+        <Route exact path="/" render={() => (
+          <Home />)} />
+        <div>
+        <Route exact path="/TopicForm" render={() => (
+            <TopicForm
+            currentUser = {this.state.currentUser}
+            />)} />
+        
+      </div>
+        
       </div>
     );
   }

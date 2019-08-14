@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :authorize_request, except: :create
-
+  before_action :authorize_request, only: [:verify]
   
   def index
     @users = User.all
@@ -34,6 +34,15 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     @user.destroy
     head 204
+  end
+
+  def verify
+    @user ={
+      id: @current_user[:id],
+      username: @current_user[:username],
+      email: @current_user[:email]
+    }
+    render json: @user
   end
   
   private
