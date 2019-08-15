@@ -50,13 +50,15 @@ export const destroyTopic = async (id) => {
   return resp.data
 }
 
-export const fetchComments = async () => {
-  const resp = await api.get('topic_id/comments')
+export const fetchComments = async (id) => {
+  const resp = await api.get(`/topics/${id}/comments`)
   return resp.data
 }
 
-export const createComment = async (data) => {
-  const resp = await api.get('topic_id/comments', {comment: data})
+export const createComment = async (id, data) => {
+  const resp = await api.post(`/topics/${id}/comments`, {comment: data})
   return resp.data
 }
+
+
 

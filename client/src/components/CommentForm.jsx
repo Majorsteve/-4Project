@@ -2,10 +2,9 @@ import React from 'react'
 import { createComment } from '../services/api-helper';
 import { withRouter } from 'react-router-dom'
 
-class CommentForm extends ReactComp.onent {
+class CommentForm extends React.Component {
   constructor(props) {
     super(props)
-
     this.state = {
       content: ''
     }
@@ -20,11 +19,12 @@ class CommentForm extends ReactComp.onent {
 
   submit = async (ev) => {
     ev.preventDefault();
-    const res = await createComment(this.state);
-    console.log(res)
+    const resp = await createComment(this.state);
+    console.log(resp)
     this.setState({
       title: '',
     });
+    // this.props.history.push('/topics/:topic_id/comments');
   }
 
   render() {
@@ -39,9 +39,11 @@ class CommentForm extends ReactComp.onent {
             onChange={this.handleChange} />
           <input
             type="submit"
-            value="Create Comment" />
+            value="Create" />
         </form>
+        
       </div>
+
     )
   }
 }
