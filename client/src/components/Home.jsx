@@ -39,12 +39,12 @@ export default class Home extends React.Component {
           <h1>Home Page</h1>
           <Link to="/TopicForm">Create A New Topic</Link>
           {this.state.topics.map(topic => (
-            <Link to={`/topics/${topic.id}/comments`}>
-              <div key={topic.id}>
+            <div key={topic.id}>
+              <Link to={`/topics/${topic.id}/comments`}>
                 <h3>{topic.title}</h3>
-                <button onClick={() => this.deleteTopic(topic.id)}>Delete</button>
-              </div>
-            </Link>
+              </Link>
+              <button onClick={() => this.deleteTopic(topic.id)}>Delete</button>
+            </div>
           ))}
         </div>
         <div>

@@ -6,7 +6,8 @@ class CommentForm extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      content: ''
+      content: '',
+
     }
   }
 
@@ -17,21 +18,15 @@ class CommentForm extends React.Component {
     });
   }
 
-  submit = async (ev) => {
-    ev.preventDefault();
-    const resp = await createComment(this.state);
-    console.log(resp)
-    this.setState({
-      title: '',
-    });
-    // this.props.history.push('/topics/:topic_id/comments');
-  }
-
   render() {
+    console.log(this.props)
     return (
       <div>
-        <form onSubmit={this.submit}>
-          <label htmlFor="name">Comments</label>
+        <form onSubmit={(ev) => {
+          ev.preventDefault();
+          this.props.handleSubmit(this.state)
+        }}>
+          <label htmlFor="name">Submit</label>
           <input
             type="text"
             name="content"
@@ -41,7 +36,6 @@ class CommentForm extends React.Component {
             type="submit"
             value="Create" />
         </form>
-        
       </div>
 
     )

@@ -1,4 +1,6 @@
 class CommentsController < ApplicationController
+  before_action :authorize_request, only: [:create]
+
   def index
     @topic = Topic.find(params[:topic_id])
     @comments = Comment.where(topic_id: @topic.id)
@@ -12,8 +14,9 @@ class CommentsController < ApplicationController
   end
 
   def create
-    def create
       @comment = Comment.new(comment_params)
+      @topic = Topic.find(params[:topic_id])
+      @comment.topic = @topic
       if @comment.save
         render json: @comment, status: :created
       else
@@ -39,7 +42,6 @@ class CommentsController < ApplicationController
     private
   
     def comment_params
-      params.require(:Comment).permit(:content, :agree)
+      params.require(:comment).permit(:content, :agree, :user_id, :topic_id)
     end
   end
-end

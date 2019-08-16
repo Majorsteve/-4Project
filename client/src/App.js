@@ -90,10 +90,10 @@ class App extends React.Component {
           <div>
             {this.state.currentUser
               ?
-              <>
+              <div className = "name-button">
                 <p>{this.state.currentUser.username}</p>
-                <button onClick={this.handleLogout}>logout</button>
-              </>
+                <button className = "login-button" onClick={this.handleLogout}>logout</button>
+              </div>
               :
               <button onClick={this.handleLoginButton}>Login/register</button>
             }
@@ -106,18 +106,18 @@ class App extends React.Component {
               handleLogin={this.handleLogin}
               handleChange={this.authHandleChange}
               formData={this.state.authFormData} />)} />
-          
+
           <Route exact path="/register" render={() => (
             <RegisterForm
               handleRegister={this.handleRegister}
               handleChange={this.authHandleChange}
               formData={this.state.authFormData} />)} />
-          
+
         </div>
 
         <Route exact path="/" render={() => (
           <Home />)} />
-        
+
         <Route exact path="/topics/:topic_id/comments" render={(props) => <CommentList topic_id={props.match.params.topic_id} />} />
 
         <div>
@@ -126,7 +126,6 @@ class App extends React.Component {
             <TopicForm
               currentUser={this.state.currentUser}
             />)} />
-          
         </div>
       </div>
     );

@@ -5,11 +5,10 @@ const LoginForm = (props) => {
 
   return (
     <div className="auth-login">
-      <h2>login</h2>
-      <hr />
       <form className="box" onSubmit={(e) => {
         e.preventDefault();
         props.handleLogin();}} >
+        <p>login</p>
         <p>Username:</p>
         <input
           name="username"
@@ -22,8 +21,7 @@ const LoginForm = (props) => {
           type="password"
           value={props.formData.password}
           onChange={props.handleChange} />
-        <hr/>
-        <button>Login</button>
+        <button className="auth-button">Login</button>
         <Link to="/register">Register</Link>
       </form>
     </div>

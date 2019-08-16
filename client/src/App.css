@@ -3,12 +3,12 @@
 }
 
 header {
-  font-family: 'Permanent Marker', cursive;
+  font-family: 'Permanent Marker';
   text-align: left;
-  padding: 2rem;
+  padding: 1rem;
   background: linear-gradient(to right, #d6d6d6, #b1b1b1, #d6d6d6);
   position: static;
-  width: 100%;
+  /* width: 100%; */
   top: 0;
   display: flex;
   justify-content: space-between;
@@ -19,9 +19,17 @@ header>h1>a {
   cursor: pointer;
 }
 
-header>div>button, p {
-  margin: 0 3rem;
+.name-button{
+  display: flex;
 }
+
+.login-button{
+  border: black;
+}
+
+/* header>div>button, p {
+  margin: 0 3rem;
+} */
 
 
 .body{
@@ -40,7 +48,7 @@ transform: translate(-50%,-50%);
 background: #191919;
 text-align: center;
 }
-.box h1{
+.box p{
 color: white;
 text-transform: uppercase;
 font-weight: 500;
@@ -63,7 +71,8 @@ transition: 0.25s;
 width: 280px;
 border-color: #2ecc71;
 }
-.box input[type = "submit"]{
+
+.auth-button {
 border:0;
 background: none;
 display: block;

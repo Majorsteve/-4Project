@@ -8,7 +8,7 @@ const RegisterForm = (props) => {
     <div className="auth-register">
       <h2>Register</h2>
       <hr />
-      <form onSubmit={props.handleRegister} >
+      <form className="box" onSubmit={props.handleRegister} >
         <p>Username:</p>
         <input
           name="username"
@@ -28,7 +28,7 @@ const RegisterForm = (props) => {
           value={props.formData.password}
           onChange={props.handleChange} />
         <hr/>
-        <button onClick={props.handleLoginButton}>Register</button>
+        <button className= "auth-button"onClick={props.handleLoginButton}>Register</button>
         <Link to="/login">login</Link>
       </form>
     </div>
