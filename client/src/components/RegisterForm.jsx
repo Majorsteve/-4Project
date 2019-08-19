@@ -6,8 +6,6 @@ const RegisterForm = (props) => {
 
   return (
     <div className="auth-register">
-      <h2>Register</h2>
-      <hr />
       <form className="box" onSubmit={props.handleRegister} >
         <p>Username:</p>
         <input

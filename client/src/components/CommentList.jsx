@@ -47,7 +47,7 @@ export default class CommentList extends React.Component {
   render() {
     return (
       <div>
-      <h1>Comment Lists</h1>
+        <h1>Comment Lists</h1>
         <div>
 
           <CommentForm
@@ -59,8 +59,16 @@ export default class CommentList extends React.Component {
         {/* <h2>{this.props.topic.title}</h2> */}
         {this.state.comments.map(comment => (
           <div key={comment.id}>
-            <h3>{comment.content}</h3>
-            <button onClick={() => this.handleDelete(comment.id)}>Delete</button>
+            <div className="container">
+              <div className="dialogbox">
+                <div className="body">
+                  <span className="tip tip-up"></span>
+                  <div className="message"></div>
+                  <h3>{comment.content}</h3>
+                  <button onClick={() => this.handleDelete(comment.id)}>Delete</button>
+                </div>
+              </div>
+            </div>
           </div>
         ))}
       </div>

@@ -86,7 +86,7 @@ class App extends React.Component {
             //   name: "",
             //   photo: ""
             // }
-          })}>Home</Link></h1>
+          })}>Forget it</Link></h1>
           <div>
             {this.state.currentUser
               ?
