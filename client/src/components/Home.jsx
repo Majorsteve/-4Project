@@ -1,10 +1,10 @@
 import React from 'react'
-import { Route, Link } from 'react-router-dom';
+import { Route, Link, withRouter } from 'react-router-dom';
 import TopicForm from './TopicForm';
 import { fetchTopics, destroyTopic } from '../services/api-helper';
 // import { withRouter } from 'react-router';
 
-export default class Home extends React.Component {
+class Home extends React.Component {
   constructor(props) {
     super(props)
 
@@ -32,18 +32,25 @@ export default class Home extends React.Component {
     }));
   }
 
+  commentsLink = (id) => {
+    this.props.fetchComments(id);
+    this.props.history.push(`/topics/${id}/comments`)
+  }
+
   render() {
     return (
       <div>
-        <div>
+        <div className="Home">
           <h1>Home Page</h1>
-          <Link to="/TopicForm">Create A New Topic</Link>
+          <div className="create-topic">
+            <Link to="/TopicForm">Create A New Topic</Link>
+          </div>
           {this.state.topics.map(topic => (
             <div key={topic.id}>
-              <Link to={`/topics/${topic.id}/comments`}>
-                <h3>{topic.title}</h3>
-              </Link>
-              <button onClick={() => this.deleteTopic(topic.id)}>Delete</button>
+              <div className="topic-list">
+                <h3 onClick={() => this.commentsLink(topic.id)}>{topic.title}</h3>
+                <button onClick={() => this.deleteTopic(topic.id)}>Delete</button>
+              </div>
             </div>
           ))}
         </div>
@@ -56,3 +63,5 @@ export default class Home extends React.Component {
     )
   }
 }
+
+export default withRouter(Home)

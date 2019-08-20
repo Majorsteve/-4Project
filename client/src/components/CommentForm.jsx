@@ -1,5 +1,5 @@
 import React from 'react'
-import { createComment } from '../services/api-helper';
+// import { createComment } from '../services/api-helper';
 import { withRouter } from 'react-router-dom'
 
 class CommentForm extends React.Component {
@@ -7,7 +7,6 @@ class CommentForm extends React.Component {
     super(props)
     this.state = {
       content: '',
-
     }
   }
 

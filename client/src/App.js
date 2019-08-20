@@ -7,12 +7,17 @@ import RegisterForm from './components/RegisterForm';
 import Home from './components/Home';
 import TopicForm from './components/TopicForm';
 import CommentList from './components/CommentList';
+import EditCommentForm from './components/EditCommentForm'
 import {
   loginUser,
   registerUser,
   verifyUser,
+  editComment,
+  fetchComments,
+  createComment,
+  destroyComment,
 } from './services/api-helper'
-import CommentForm from './components/CommentForm';
+// import CommentForm from './components/CommentForm';
 
 class App extends React.Component {
   constructor(props) {
@@ -26,14 +31,70 @@ class App extends React.Component {
         email: "",
         password: ""
       },
-      topics: []
+      topics: [],
+      comments: [],
+      commentFormData: {
+        content: ""
+      }
     }
+  }
+
+  // --------------------- comments ----------------------
+
+  fetchComments = async (id) => {
+    const comments = await fetchComments(id);
+    this.setState({
+      comments: comments,
+      topic_id: id
+    });
+  }
+
+  handleSubmit = async (formData) => {
+    const { topic_id } = this.state
+    const resp = await createComment(topic_id, formData);
+    this.setState(prevState => ({
+      comments: [...prevState.comments, resp]
+    }));
+  }
+
+  handleDelete = async (id) => {
+    const resp = await destroyComment(id);
+    this.setState(prevState => ({
+      comments: prevState.comments.filter(comment => comment.id !== id)
+    }))
+  }
+
+
+  setFormData = (comment) => {
+    this.setState({
+      commentFormData: comment
+    })
+    this.props.history.push("/EditCommentForm")
+  }
+
+  handleChange = (e) => {
+    const { name, value } = e.target;
+    this.setState(prevState => ({
+      commentFormData: {
+        ...prevState.commentFormData,
+        [name]: value
+      }
+    }));
+  }
+
+  handleCommentSubmit = async (e) => {
+    e.preventDefault()
+    const { commentFormData } = this.state;
+    const updatedComment = await editComment(commentFormData.id, commentFormData)
+    this.setState(prevState => ({
+      comments: prevState.comments.map(comment => comment.id === commentFormData.id ? updatedComment : comment)
+    }))
+    this.props.history.push(`/topics/${this.state.topic_id}/comments`)
   }
 
 
   //Authticate
   componentDidMount = async () => {
-    // this.getTeachers();
     const user = await verifyUser();
     if (user) {
       this.setState({
@@ -42,6 +103,8 @@ class App extends React.Component {
     }
   }
 
+
+  // --------------------- AUTH ----------------------
   handleLoginButton = (ev) => {
     ev.preventDefault();
   }
@@ -90,9 +153,9 @@ class App extends React.Component {
           <div>
             {this.state.currentUser
               ?
-              <div className = "name-button">
+              <div className="name-button">
                 <p>{this.state.currentUser.username}</p>
-                <button className = "login-button" onClick={this.handleLogout}>logout</button>
+                <button className="login-button" onClick={this.handleLogout}>logout</button>
               </div>
               :
               <button onClick={this.handleLoginButton}>Login/register</button>
@@ -112,20 +175,37 @@ class App extends React.Component {
               handleRegister={this.handleRegister}
               handleChange={this.authHandleChange}
               formData={this.state.authFormData} />)} />
-
         </div>
 
         <Route exact path="/" render={() => (
-          <Home />)} />
+          <Home
+            fetchComments={this.fetchComments}
+          />)} />
 
-        <Route exact path="/topics/:topic_id/comments" render={(props) => <CommentList topic_id={props.match.params.topic_id} />} />
-
+        <Route exact path="/topics/:topic_id/comments" render={(props) => {
+          const topic_id = props.match.params.topic_id
+          return <CommentList
+            handleSubmit={this.handleSubmit}
+            topic_id={topic_id}
+            setFormData={this.setFormData}
+            handleDelete={this.handleDelete}
+            comments={this.state.comments}
+          />
+        }} />
         <div>
 
           <Route exact path="/TopicForm" render={() => (
             <TopicForm
               currentUser={this.state.currentUser}
             />)} />
+          <Route exact path="/EditCommentForm" render={(props) => (
+            <EditCommentForm
+              handleCommentSubmit={this.handleCommentSubmit}
+              formData={this.state.commentFormData}
+              handleChange={this.handleChange}
+            />
+
+          )} />
         </div>
       </div>
     );

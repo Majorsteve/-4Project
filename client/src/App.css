@@ -1,6 +1,11 @@
+body{
+  background-color: rgba(245 245 220);
+
+}
 .App {
   text-align: center;
 }
+
 
 header {
   font-family: 'Permanent Marker';
@@ -125,4 +130,26 @@ background: #2ecc71;
   font-size: 14px;
   line-height: 1.5;
   color: #797979;
+}
+
+.topic-list{
+  text-align: left;
+  border: solid;
+  border-color: rgba(16 78 139);
+  border-radius: 3%;
+  margin-top: 2em;
+  background-color: #2e3844;
+}
+
+.topic-list a{
+  text-decoration: none;
+  color: #ededed; 
+}
+
+.create-topic a{
+text-decoration: none;
+}
+
+.Home h1{
+  color: whitesmoke;
 }
